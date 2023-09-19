@@ -5,6 +5,7 @@
 #
 import json
 
+print('JSON task dumping and loading JSON')
 dict = {'Andrew': ['harry potter', 'mcchonahey'],
         'John': ['queen\'s gambit'],
         'Jackson': ['alice in the wonderland'],
@@ -20,6 +21,8 @@ print(json_serialized_data, 'json_serialized_data type:' + str(type(json_seriali
 json_deserialized_data = json.loads(json_serialized_data)
 print(json_deserialized_data, 'json_deserialized_data type:' + str(type(json_deserialized_data)))
 
+print()
+print('Loading JSON from file task')
 # Create a JSON file containing a list of dictionaries, each representing a person's information (name, age, etc.).
 #  Write Python code to read and print the data from the JSON file.
 
@@ -30,14 +33,45 @@ with open('file_json.json', 'r') as file:
     data = json.load(file)
     print(data, 'data type:' + str(type(data)))
 
-# with open('fi', 'r') as file:
-#         data = json.loads(file)
-#         print(data, 'data type:' + str(type(data)))
-
+print()
+print('JSON Validation task')
 # JSON Validation:
 #
 # Define a JSON schema for a configuration file. Write Python code to validate JSON data against this schema using
 #  the jsonschema library.
+
+schema = {
+    "type": "object",
+    "properties": {
+        "name": {"type": "string"},
+        "age": {"type": "integer"},
+        "email": {"type": "string", "format": "email"},
+    },
+    "required": ["name", "age"]
+}
+
+from jsonschema import validate, ValidationError
+
+# Your JSON data
+json_data = '''
+{
+    "name": "John",
+    "age": 30,
+    "email": "john@example.com"
+}
+'''
+
+try:
+    # Parse the JSON data
+    data = json.loads(json_data)
+
+    # Validate the JSON data against the schema
+    validate(instance=data, schema=schema)
+
+    print("JSON data is valid according to the schema.")
+except ValidationError as e:
+    print(f"JSON validation error: {e}")
+
 # Custom JSON Encoder:
 #
 # Create a custom JSON encoder that can handle datetime objects. Serialize a dictionary containing datetime objects into
