@@ -100,15 +100,11 @@ print(json_string)
 
 print()
 print('big json nested class encoder task')
+import json
+
 class Note:
     def __init__(self, text):
         self.text = text
-
-class NoteEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, Note):
-            return {'text': obj.text}
-        return super().default(obj)
 
 class Person:
     def __init__(self, name, age, email):
@@ -117,34 +113,34 @@ class Person:
         self.email = email
         self.notes = [Note('hello'), Note('world')]
 
-class PersonEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, Person):
-            return {'name': obj.name, 'age': obj.age, 'email': obj.email}
-        return super().default(obj)
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'age': self.age,
+            'email': self.email,
+            'notes': [note.__dict__ for note in self.notes]
+        }
 
+def custom_encoder(obj):
+    if isinstance(obj, (Note, Person)):
+        return obj.__dict__
+    raise TypeError(f"Object of type {obj.__class__.__name__} is not JSON serializable")
+
+# Create a Person object
 person = Person('Andrew', '18', 'amamma@gmail.com')
 
 # Serialize the Person object with the custom encoder
-person_json = json.dumps(person, cls=PersonEncoder, indent=4)
+person_json = json.dumps(person, default=custom_encoder, indent=4)
 
-# Serialize the list of Note objects using the NoteEncoder and list comprehension
-note_list = [json.dumps(note, cls=NoteEncoder, indent=4) for note in person.notes]
+# Save the Person JSON representation as a JSON file
+with open('person_data.json', 'w') as json_file:
+    json.dump(person_json, json_file, indent=4)
 
-# Combine the Person and Note JSON into a dictionary
-data = {
-    "person": json.loads(person_json),
-    "notes": [json.loads(note) for note in note_list]
-}
+print("Person data saved to 'person_data.json'")
 
-# Save the combined data as a JSON file
-with open('combined_data.json', 'w') as json_file:
-    json.dump(data, json_file, indent=4)
-
-print("Data saved to 'combined_data.json'")
-
-
-
+with open('person_data.json', 'r') as json_file:
+    data = json.load(json_file)
+    print(data)
 # Custom JSON Decoder:
 #
 # Create a custom JSON decoder that can parse JSON data with special formatting (e.g., dates in a custom format).
