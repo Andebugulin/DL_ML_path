@@ -72,10 +72,30 @@ try:
 except ValidationError as e:
     print(f"JSON validation error: {e}")
 
+print()
+print("Custom JSON Encoder task")
 # Custom JSON Encoder:
 #
 # Create a custom JSON encoder that can handle datetime objects. Serialize a dictionary containing datetime objects into
 #  a JSON string.
+
+from datetime import datetime
+
+class DateTimeEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        return super().default(obj)
+
+data = {
+    "event": "meeting",
+    "timestamp": datetime.now()
+}
+
+# Serialize data using the custom encoder
+json_string = json.dumps(data, cls=DateTimeEncoder)
+print(json_string)
+
 # Custom JSON Decoder:
 #
 # Create a custom JSON decoder that can parse JSON data with special formatting (e.g., dates in a custom format).
