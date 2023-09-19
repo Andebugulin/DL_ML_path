@@ -10,17 +10,18 @@ dict = {'Andrew': ['harry potter', 'mcchonahey'],
         'John': ['queen\'s gambit'],
         'Jackson': ['alice in the wonderland'],
         }
-json_data = json.dumps(dict)
+json_serialized_data = json.dumps(dict)
 
-print(json_data)
-
-
-
-
+print(json_serialized_data, 'json_serialized_data type:' + str(type(json_serialized_data)))
 
 # Write Python code to deserialize a JSON string into a dictionary.
 # Working with JSON Files:
 #
+
+json_deserialized_data = json.loads(json_serialized_data)
+print(json_deserialized_data, 'json_deserialized_data type:' + str(type(json_deserialized_data)))
+
+
 # Create a JSON file containing a list of dictionaries, each representing a person's information (name, age, etc.).
 #  Write Python code to read and print the data from the JSON file.
 # JSON Validation:
