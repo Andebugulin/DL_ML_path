@@ -1,4 +1,3 @@
-
 # JSON Serialization:
 #
 # Write Python code to serialize a dictionary into a JSON string.
@@ -21,9 +20,20 @@ print(json_serialized_data, 'json_serialized_data type:' + str(type(json_seriali
 json_deserialized_data = json.loads(json_serialized_data)
 print(json_deserialized_data, 'json_deserialized_data type:' + str(type(json_deserialized_data)))
 
-
 # Create a JSON file containing a list of dictionaries, each representing a person's information (name, age, etc.).
 #  Write Python code to read and print the data from the JSON file.
+
+with open('file_json.json', 'w') as file:
+    file.write(json_serialized_data)
+
+with open('file_json.json', 'r') as file:
+    data = json.load(file)
+    print(data, 'data type:' + str(type(data)))
+
+# with open('fi', 'r') as file:
+#         data = json.loads(file)
+#         print(data, 'data type:' + str(type(data)))
+
 # JSON Validation:
 #
 # Define a JSON schema for a configuration file. Write Python code to validate JSON data against this schema using
@@ -69,4 +79,3 @@ print(json_deserialized_data, 'json_deserialized_data type:' + str(type(json_des
 #
 # Document the structure and usage of a JSON dataset you're working with. Imagine you're providing this documentation to
 # a colleague who needs to understand the data.
-
