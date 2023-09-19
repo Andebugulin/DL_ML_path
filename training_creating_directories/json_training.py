@@ -96,6 +96,55 @@ data = {
 json_string = json.dumps(data, cls=DateTimeEncoder)
 print(json_string)
 
+# complicated class note with a person , nested class and saving it to json file
+
+print()
+print('big json nested class encoder task')
+class Note:
+    def __init__(self, text):
+        self.text = text
+
+class NoteEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Note):
+            return {'text': obj.text}
+        return super().default(obj)
+
+class Person:
+    def __init__(self, name, age, email):
+        self.name = name
+        self.age = age
+        self.email = email
+        self.notes = [Note('hello'), Note('world')]
+
+class PersonEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Person):
+            return {'name': obj.name, 'age': obj.age, 'email': obj.email}
+        return super().default(obj)
+
+person = Person('Andrew', '18', 'amamma@gmail.com')
+
+# Serialize the Person object with the custom encoder
+person_json = json.dumps(person, cls=PersonEncoder, indent=4)
+
+# Serialize the list of Note objects using the NoteEncoder and list comprehension
+note_list = [json.dumps(note, cls=NoteEncoder, indent=4) for note in person.notes]
+
+# Combine the Person and Note JSON into a dictionary
+data = {
+    "person": json.loads(person_json),
+    "notes": [json.loads(note) for note in note_list]
+}
+
+# Save the combined data as a JSON file
+with open('combined_data.json', 'w') as json_file:
+    json.dump(data, json_file, indent=4)
+
+print("Data saved to 'combined_data.json'")
+
+
+
 # Custom JSON Decoder:
 #
 # Create a custom JSON decoder that can parse JSON data with special formatting (e.g., dates in a custom format).
