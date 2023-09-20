@@ -141,10 +141,27 @@ print("Person data saved to 'person_data.json'")
 with open('person_data.json', 'r') as json_file:
     data = json.load(json_file)
     print(data)
+
 # Custom JSON Decoder:
-#
 # Create a custom JSON decoder that can parse JSON data with special formatting (e.g., dates in a custom format).
 #  Deserialize a JSON string containing such data.
+
+
+class PersonDecoder(json.JSONDecoder):
+    def __init__(self, *args, **kwargs):
+        json.JSONDecoder.__init__(self, object_hook=self.object_hook, *args, **kwargs)
+    def object_hook(self, dct):
+        person = Person(dct['name'], dct['age'], dct['email'])
+        for i in dct['notes']:
+            person.notes.append(Note(dct['notes'][i]['text']))
+        return person
+
+with open('person_data.json', 'r') as file:
+    data = json.load(file, cls=PersonDecoder)
+    print(data)
+
+
+
 # Handling Nested JSON:
 #
 # Create a nested JSON structure representing a family tree. Write Python code to navigate through the JSON data to find
