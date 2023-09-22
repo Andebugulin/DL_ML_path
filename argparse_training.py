@@ -6,15 +6,34 @@
 #
 import argparse
 
-parser = argparse.ArgumentParser(description='Process some integers.')
-parser.add_argument('integers', metavar='N', type=int, nargs='+',
-                    help='an integer for the accumulator')
-parser.add_argument('--sum', dest='accumulate', action='store_const',
-                    const=sum, default=max,
-                    help='sum the integers (default: find the max)')
+def main():
+    # Create an ArgumentParser object
+    parser = argparse.ArgumentParser(description="A simple command-line tool")
 
-args = parser.parse_args()
-print(args.accumulate(args.integers))
+    # Add arguments to the parser
+    parser.add_argument('--input', '-i', required=True, help='Input file path')
+    parser.add_argument('--output', '-o', required=True, help='Output file path')
+    parser.add_argument('--verbose', '-v', action='store_true', help='Enable verbose mode')
+
+    # Parse the command-line arguments
+    args = parser.parse_args()
+
+    # Access the values of the parsed arguments
+    input_file = args.input
+    output_file = args.output
+    verbose = args.verbose
+
+    # Perform the desired action based on the parsed arguments
+    if verbose:
+        print(f'Processing {input_file} to {output_file} in verbose mode')
+    else:
+        print(f'Processing {input_file} to {output_file}')
+
+    # Implement your logic here, e.g., reading from input_file and writing to output_file
+
+if __name__ == '__main__':
+    main()
+
 
 
 
