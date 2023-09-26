@@ -17,7 +17,7 @@ ax.plot(x, y2, label='cos(x)', linestyle='--', color='r')
 scatter_x = np.random.rand(20) * 10
 scatter_y = np.random.rand(20)
 ax.scatter(scatter_x, scatter_y, label='Scatter', color='g', marker='o')
-
+print('hello world')
 # Bar chart
 categories = ['Category A', 'Category B', 'Category C', 'Category D']
 values = [25, 30, 15, 40]
