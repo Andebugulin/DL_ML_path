@@ -61,3 +61,8 @@ Pandas is a popular Python library for data manipulation and analysis. It provid
     - `df.fillna()`: Fills missing values with specified values.
 
 These are some of the fundamental functions and techniques in Pandas for data analysis. Depending on your specific data analysis needs, you may use a combination of these functions to manipulate, clean, explore, and visualize your data effectively.
+
+df.corr()
+df.describe()
+df.shape
+
